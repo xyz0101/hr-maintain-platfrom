@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yuchai.maintain.evalmaintain.mapper.EvalDistQuotaMapper"> 
+  <resultMap id="EvalDistQuotaMap" type="com.yuchai.maintain.evalmaintain.entity.EvalDistQuota"> 
+    <result column="a_cal" property="aCal" jdbcType="NUMERIC"/>  
+    <result column="d_result" property="dResult" jdbcType="NUMERIC"/>  
+    <result column="b_cal" property="bCal" jdbcType="NUMERIC"/>  
+    <result column="last_updated_by" property="lastUpdatedBy" jdbcType="VARCHAR"/>  
+    <result column="object_version_number" property="objectVersionNumber" jdbcType="NUMERIC"/>  
+    <result column="eval_apply_no" property="evalApplyNo" jdbcType="VARCHAR"/>  
+    <result column="d_cal" property="dCal" jdbcType="NUMERIC"/>  
+    <result column="c_cal" property="cCal" jdbcType="NUMERIC"/>  
+    <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>  
+    <result column="b_result" property="bResult" jdbcType="NUMERIC"/>  
+    <result column="creation_date" property="creationDate" jdbcType="DATE"/>  
+    <result column="eval_year" property="evalYear" jdbcType="VARCHAR"/>  
+    <result column="dept_no" property="deptNo" jdbcType="VARCHAR"/>  
+    <!--<result column="dept_name" property="deptName" jdbcType="VARCHAR"/>-->  
+    <result column="job_level" property="jobLevel" jdbcType="VARCHAR"/>  
+    <result column="s_cal" property="sCal" jdbcType="NUMERIC"/>  
+    <result column="quota_stat" property="quotaStat" jdbcType="VARCHAR"/>  
+    <result column="s_result" property="sResult" jdbcType="NUMERIC"/>  
+    <result column="dr_code" property="drCode" jdbcType="VARCHAR"/>  
+    <!--<result column="dr_name" property="drName" jdbcType="VARCHAR"/>-->  
+    <result column="a_result" property="aResult" jdbcType="NUMERIC"/>  
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>  
+    <result column="c_result" property="cResult" jdbcType="NUMERIC"/> 
+  </resultMap>  
+  <!--获取评语分布率-->  
+  <select id="getEvalDistQuotaByYear" resultMap="EvalDistQuotaMap" parameterType="java.lang.String">select * from eval_dist_quota where eval_year = #{year} order by to_number(substr(dr_code,4,length(dr_code))) asc ,dept_no asc ,job_level asc</select>  
+  <!--新增评语分布率-->  
+  <!--oracle中用insert into xxx values (xxx,xxx),(xxx,xxx) 这种语法应该通不过-->  
+  <insert id="addEvalDistQuotaWithYear" parameterType="java.util.List" useGeneratedKeys="false">insert into eval_dist_quota(eval_year,dr_code,dept_no,job_level, s_cal,s_result,a_cal,a_result,b_cal,b_result,c_cal,c_result,d_cal,d_result, quota_stat,created_by,creation_date,last_updated_by,last_update_date,object_version_number,eval_apply_no) 
+    <foreach collection="distQuotaList" item="quota" index="index" separator=" union all ">select #{quota.evalYear, jdbcType=VARCHAR}, #{quota.drCode, jdbcType=VARCHAR}, #{quota.deptNo, jdbcType=VARCHAR}, #{quota.jobLevel, jdbcType=VARCHAR}, #{quota.sResult, jdbcType=NUMERIC}, #{quota.sResult, jdbcType=NUMERIC}, #{quota.aResult, jdbcType=NUMERIC}, #{quota.aResult, jdbcType=NUMERIC}, #{quota.bResult, jdbcType=NUMERIC}, #{quota.bResult, jdbcType=NUMERIC}, #{quota.cResult, jdbcType=NUMERIC}, #{quota.cResult, jdbcType=NUMERIC}, #{quota.dResult, jdbcType=NUMERIC}, #{quota.dResult, jdbcType=NUMERIC}, 'completed','admin', sysdate,'admin', sysdate, 1,'null' from dual</foreach> 
+  </insert>  
+  <!--删除指定年份的评语分布率-->  
+  <delete id="deleteEvalDistQuotaByYear" parameterType="java.lang.String">delete eval_dist_quota where eval_year =#{year}</delete>  
+  <update id="updateEvalDistQuotaWithYear" parameterType="java.util.List"> 
+    <foreach collection="distQuotaList" open="begin" close=";end;" separator=";" item="quota" index="index">
+      update eval_dist_quota set s_cal=#{quota.sResult},s_result=#{quota.sResult}, a_cal=#{quota.aResult},a_result=#{quota.aResult}, b_cal=#{quota.bResult},b_result=#{quota.bResult}, c_cal=#{quota.cResult},c_result=#{quota.cResult}, d_cal=#{quota.dResult},d_result=#{quota.dResult}, last_updated_by='admin' , last_update_date=sysdate, object_version_number = object_version_number+1 where eval_year = #{quota.evalYear} and dr_code = #{quota.drCode} and dept_no=#{quota.deptNo} and job_level=#{quota.jobLevel}
+    </foreach>
+  </update> 
+</mapper>

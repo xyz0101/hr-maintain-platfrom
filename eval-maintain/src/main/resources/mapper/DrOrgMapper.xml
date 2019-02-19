@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yuchai.maintain.evalmaintain.mapper.DrOrgMapper"> 
+  <resultMap id="HrDeptRegionMap" type="com.yuchai.maintain.evalmaintain.entity.HrDeptRegion"> 
+    <result column="dr_code" property="drCode" jdbcType="VARCHAR"/>  
+    <result column="last_updated_by" property="lastUpdatedBy" jdbcType="VARCHAR"/>  
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>  
+    <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>  
+    <result column="dr_name" property="drName" jdbcType="VARCHAR"/>  
+    <result column="dr_mgr" property="drMgr" jdbcType="VARCHAR"/>  
+    <result column="dr_mgr_name" property="drMgrName" jdbcType="VARCHAR"/>  
+    <result column="creation_date" property="creationDate" jdbcType="DATE"/> 
+  </resultMap>  
+  <resultMap id="HrDeptRegionDtlMap" type="com.yuchai.maintain.evalmaintain.entity.HrDeptRegionDtl"> 
+    <result column="dtl_id" property="dtlId" jdbcType="NUMERIC"/>  
+    <result column="dr_code" property="drCode" jdbcType="VARCHAR"/>  
+    <result column="dr_name" property="drName" jdbcType="VARCHAR"/>  
+    <result column="org_name_second" property="orgNameSecond" jdbcType="VARCHAR"/>  
+    <result column="last_updated_by" property="lastUpdatedBy" jdbcType="VARCHAR"/>  
+    <result column="bdate" property="bdate" jdbcType="DATE"/>  
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>  
+    <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>  
+    <result column="org_code_second" property="orgCodeSecond" jdbcType="VARCHAR"/>  
+    <result column="creation_date" property="creationDate" jdbcType="DATE"/>  
+    <result column="edate" property="edate" jdbcType="DATE"/> 
+  </resultMap>  
+  <resultMap id="OrgInfoMap" type="com.yuchai.maintain.evalmaintain.entity.OrgInfo"> 
+    <result column="organization_code" property="organizationCode" jdbcType="VARCHAR"/>  
+    <result column="organization_name" property="organizationName" jdbcType="VARCHAR"/> 
+  </resultMap>  
+  <resultMap id="HrDeptMgrMap" type="com.yuchai.maintain.evalmaintain.entity.HrDeptMgr"> 
+    <result column="organization_code" property="organizationCode" jdbcType="VARCHAR"/>  
+    <result column="organization_name" property="organizationName" jdbcType="VARCHAR"/>  
+    <result column="leader_code" property="leaderCode" jdbcType="VARCHAR"/>  
+    <result column="leader_name" property="leaderName" jdbcType="VARCHAR"/> 
+  </resultMap>  
+  <!--查询所有线-->  
+  <select id="getHrDeptRegion" resultMap="HrDeptRegionMap">select dr_code,dr_name,dr_mgr, (select employee_name from hr_employee_info_sync where employee_code = dr_mgr ) dr_mgr_name, created_by,creation_date，last_updated_by，last_update_date from hr_dept_region order by dr_code</select>  
+  <!--查询所有的线与部门的关系-->  
+  <select id="getHrDeptRegionDtl" resultMap="HrDeptRegionDtlMap" parameterType="java.util.Date">select dtl_id, dr_code,(select dr_name from hr_dept_region d where d.dr_code = dt.dr_code) dr_name ,bdate,edate,org_code_second,org_name_second,created_by,creation_date，last_updated_by，last_update_date from hr_dept_region_dtl dt 
+    <if test="inputDate !=null">where #{inputDate} between dt.bdate and dt.edate</if>  
+    <if test="inputDate ==null">where 1=2</if> order by dt.dr_code
+  </select>  
+  <!-- 获取所有部门-->  
+  <select id="getAllOrganization" resultMap="OrgInfoMap" parameterType="java.util.Date">select organization_code,organization_name from hr_organization_sync 
+    <if test="inputDate !=null">where #{inputDate} between start_time and end_time and org_parent_code = '30000000'</if>  
+    <if test="inputDate ==null">where 1=2</if> 
+  </select>  
+  <!--修改线-->  
+  <update id="updateDeptRegion" parameterType="java.util.List"> 
+    <foreach collection="hrDeptRegions" item="region" open="begin" close=";end;" separator=";" index="index">update hr_dept_region set dr_code = #{region.drCode}, dr_mgr = #{region.drMgr}, dr_Name = #{region.drName}, last_updated_by='admin', last_update_date = sysdate where dr_code = #{region.drCode}</foreach> 
+  </update>  
+  <!--删除线-->  
+  <delete id="deleteDeptRegion" parameterType="java.util.List">delete hr_dept_region where dr_code in 
+    <foreach collection="hrDeptRegions" item="region" open="(" close=")" separator="," index="index">#{region.drCode}</foreach> 
+  </delete>  
+  <!--新增线-->  
+  <insert id="addNewDeptRegion" parameterType="java.util.List">insert into hr_dept_region(dr_Code,dr_mgr,dr_name,created_by,creation_date,last_updated_by,last_update_date) 
+    <foreach collection="hrDeptRegions" item="region" index="index" separator=" union all ">select #{region.drCode, jdbcType=VARCHAR}, #{region.drMgr, jdbcType=VARCHAR},#{region.drName,jdbcType=VARCHAR},'admin',sysdate,'admin',sysdate from dual</foreach> 
+  </insert>  
+  <!--新增线与部门的关系-->  
+  <insert id="addNewDeptRegionDtl" parameterType="java.util.List">insert into hr_dept_region_dtl(dtl_id,dr_Code,org_code_second,org_name_second,bdate,edate,created_by,creation_date,last_updated_by,last_update_date) 
+    <foreach collection="deptRegionDtls" item="regiondtl" index="index" separator=" union all ">select hr_dept_region_dtl_seq.nextval, #{regiondtl.drCode, jdbcType=VARCHAR}, #{regiondtl.orgCodeSecond, jdbcType=VARCHAR},#{regiondtl.orgNameSecond, jdbcType=VARCHAR},#{regiondtl.bdate,jdbcType=DATE},#{regiondtl.edate,jdbcType=DATE},'admin',sysdate,'admin',sysdate from dual</foreach> 
+  </insert>  
+  <!--修改线与部门关系-->  
+  <update id="updateDeptRegionDtl" parameterType="java.util.List"> 
+    <foreach collection="deptRegionDtls" item="regiondtl" open="begin" close=";end;" separator=";" index="index">
+      update hr_dept_region_dtl set dr_code = #{regiondtl.drCode}, org_code_second = #{regiondtl.orgCodeSecond},
+      org_name_second = #{regiondtl.orgNameSecond}, bdate = #{regiondtl.bdate},
+      edate = #{regiondtl.edate}, last_updated_by='admin', last_update_date = sysdate where dtl_id = #{regiondtl.dtlId}</foreach>
+  </update>  
+  <!-- 获取部门以及部门领导-->  
+  <select id="getDeptMgrs" resultMap="HrDeptMgrMap">select t.*, (select employee_name from hr_employee_infos where employee_code = t.leader_code) leader_name from (select o.organization_code, o.organization_name, case when (select dept_mgr from hr_dept_mgr where dept_no = o.organization_code) is null then hr_eval_pkg.GET_DEPT_MGR(o.organization_code) else (select dept_mgr from hr_dept_mgr where dept_no = o.organization_code) end leader_code from hr_organization_sync o where end_time &gt; sysdate and o.org_parent_code = '30000000') t</select>  
+  <!--修改部门领导关系-->  
+  <update id="updateDeptMgr" parameterType="java.util.List">
+    <foreach collection="hrDeptMgrs" item="mgr" open="begin" close=";end;" separator=";" index="index">
+
+
+
+
+      MERGE INTO   hr_dept_mgr  m
+      using ( select  #{mgr.organizationCode} dept_no from dual)  h
+      on (h.dept_no = m.dept_no)
+      WHEN MATCHED THEN
+      update
+      set dept_mgr  =#{mgr.leaderCode},
+      LAST_UPDAT_DATE      = sysdate,
+      LAST_UPDATED_BY       = 'admin',
+      OBJECT_VERSION_NUMBER = OBJECT_VERSION_NUMBER + 1
+      where dept_no =#{mgr.organizationCode}
+      WHEN NOT MATCHED THEN
+      insert
+      (dept_no,
+      dept_mgr,
+      CREATION_DATE,
+      CREATED_BY,
+      LAST_UPDAT_DATE,
+      LAST_UPDATED_BY,
+      OBJECT_VERSION_NUMBER)
+      values
+      ( #{mgr.organizationCode},
+      #{mgr.leaderCode}, sysdate,
+      'admin',
+      sysdate,
+      'admin',
+      1)
+    </foreach>
+
+  </update>
+</mapper>

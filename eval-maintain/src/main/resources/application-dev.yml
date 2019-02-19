@@ -1,0 +1,30 @@
+server:
+  port: 8762
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@172.16.90.66:1521/dbtst
+    username: portal
+    password: portal
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    type: com.alibaba.druid.pool.DruidDataSource
+  application:
+    name: 年度评价模块
+  servlet:
+    multipart:
+      max-file-size: 20MB
+  #配置json对日期格式的转换 不配置的话会转换为2019-01-10T11:54:17.511Z这种格式，无法识别
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+eureka:
+  client:
+    service-url:
+      defaultZone: http://172.16.134.98:8761/eureka/
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.yuchai.maintain.evalmaintain.entity
+logging:
+  level:
+    com.yuchai.maintain.evalmaintain.mapper: none
+
+

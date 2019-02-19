@@ -1,0 +1,38 @@
+server:
+  port: 8700
+eureka:
+  client:
+    service-url:
+      #defaultZone: http://127.0.0.1:8761/eureka/
+      defaultZone: http://172.16.134.98:8761/eureka/
+spring:
+  application:
+    name: 服务网关
+  main:
+      allow-bean-definition-overriding: true
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          #匹配所有路径
+          '[/**]':
+            #allowedOrigins: "http://localhost:4200"
+            allowedOrigins: "http://172.16.134.98"
+            allowedMethods:
+            - GET
+            - POST
+            - DELETE
+            - PUT
+            - OPTIONS
+      #路由配置
+      routes:
+        - id: evalRoute
+          #uri: "http://127.0.0.1:8762"
+          uri: "http://172.16.134.98:8762"
+          predicates:
+          - Path=/eval/**
+        - id: targetRoute
+          #uri: "http://127.0.0.1:8763"
+          uri: "http://172.16.134.98:8763"
+          predicates:
+          - Path=/target/**

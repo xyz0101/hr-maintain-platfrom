@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yuchai.maintain.evalmaintain.mapper.EvalIncludeEmployeesMapper"> 
+  <resultMap id="EvalIncludeEmployeesMap" type="com.yuchai.maintain.evalmaintain.entity.EvalIncludeEmployees"> 
+    <result column="last_updated_by" property="lastUpdatedBy" jdbcType="VARCHAR"/>  
+    <result column="object_version_number" property="objectVersionNumber" jdbcType="NUMERIC"/>  
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>  
+    <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>  
+    <result column="creation_date" property="creationDate" jdbcType="DATE"/>  
+    <result column="employee_code" property="employeeCode" jdbcType="VARCHAR"/>  
+    <result column="is_enable" property="isEnable" jdbcType="VARCHAR"/>  
+    <result column="employee_name" property="employeeName" jdbcType="VARCHAR"/> 
+  </resultMap>  
+  <resultMap id="EvalEmployeeInfosMap" type="com.yuchai.maintain.evalmaintain.entity.EvalEmployeeInfos"> 
+    <result column="data_date" property="dataDate" jdbcType="DATE"/>  
+    <result column="employee_code" property="employeeCode" jdbcType="VARCHAR"/>  
+    <result column="employee_name" property="employeeName" jdbcType="VARCHAR"/>  
+    <result column="org_name_second" property="orgNameSecond" jdbcType="VARCHAR"/>  
+    <result column="position_name" property="positionName" jdbcType="VARCHAR"/> 
+  </resultMap>
+
+  <resultMap id="HrEmployeeInfoSyncMap" type="com.yuchai.maintain.evalmaintain.entity.HrEmployeeInfoSync">
+    <result column="hr_emp_code" property="hrEmpCode" jdbcType="VARCHAR"/>
+    <result column="in_company_date" property="inCompanyDate" jdbcType="DATE"/>
+    <result column="object_version_number" property="objectVersionNumber" jdbcType="NUMERIC"/>
+    <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
+    <result column="employee_birth" property="employeeBirth" jdbcType="DATE"/>
+    <result column="employee_nationality" property="employeeNationality" jdbcType="VARCHAR"/>
+    <result column="salary_cal_date" property="salaryCalDate" jdbcType="DATE"/>
+    <result column="employee_code" property="employeeCode" jdbcType="VARCHAR"/>
+    <result column="is_married" property="isMarried" jdbcType="VARCHAR"/>
+    <result column="employee_nation" property="employeeNation" jdbcType="VARCHAR"/>
+    <result column="employee_phone" property="employeePhone" jdbcType="VARCHAR"/>
+    <result column="employee_name" property="employeeName" jdbcType="VARCHAR"/>
+    <result column="last_updated_by" property="lastUpdatedBy" jdbcType="VARCHAR"/>
+    <result column="employee_sex" property="employeeSex" jdbcType="VARCHAR"/>
+    <result column="att08" property="att08" jdbcType="VARCHAR"/>
+    <result column="att07" property="att07" jdbcType="VARCHAR"/>
+    <result column="contract_start_date" property="contractStartDate" jdbcType="DATE"/>
+    <result column="political_status" property="politicalStatus" jdbcType="VARCHAR"/>
+    <result column="contract_end_date" property="contractEndDate" jdbcType="DATE"/>
+    <result column="att04" property="att04" jdbcType="VARCHAR"/>
+    <result column="att03" property="att03" jdbcType="VARCHAR"/>
+    <result column="in_yccompany_date" property="inYccompanyDate" jdbcType="DATE"/>
+    <result column="att06" property="att06" jdbcType="VARCHAR"/>
+    <result column="att05" property="att05" jdbcType="VARCHAR"/>
+    <result column="creation_date" property="creationDate" jdbcType="DATE"/>
+    <result column="att02" property="att02" jdbcType="VARCHAR"/>
+    <result column="att01" property="att01" jdbcType="VARCHAR"/>
+    <result column="werks" property="werks" jdbcType="VARCHAR"/>
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+    <result column="on_work_date" property="onWorkDate" jdbcType="DATE"/>
+  </resultMap>
+
+
+  <select id="getEvalEmployeeRange" resultMap="EvalIncludeEmployeesMap">select t.*,(select s.employee_name from hr_employee_info_sync s where s.employee_code = t.employee_code) employee_name from eval_include_employees t</select>  
+  <select id="getEvalEmployeeCount" resultType="java.lang.Integer">select count(1) eval_count from eval_include_employees</select>  
+  <select id="deleteEvalEmployeeRange">delete eval_include_employees</select>  
+  <select id="addEvalEmployeeRange" parameterType="com.yuchai.maintain.evalmaintain.entity.EvalIncludeEmployees">insert into eval_include_employees(employee_code,is_enable) values (#{emp.employeeCode},#{emp.isEnable})</select>  
+  <!--oracle中用insert into xxx values (xxx,xxx),(xxx,xxx) 这种语法应该通不过-->  
+  <insert id="addEvalEmployeeRangeList" parameterType="java.util.List" useGeneratedKeys="false">insert into eval_include_employees(employee_code,is_enable) 
+    <foreach collection="empList" item="emp" index="index" separator=" union all ">select #{emp.employeeCode, jdbcType=VARCHAR}, #{emp.isEnable, jdbcType=VARCHAR} from dual</foreach> 
+  </insert>  
+  <!--通过条件获取评价员工-->  
+  <select id="getEvalEmployeeInfosWithCondition" parameterType="java.util.Map" resultMap="EvalEmployeeInfosMap">select * from ( select t.*, rownum rn from (select data_date,employee_code,employee_name,org_name_second,position_name from eval_EMPLOYEE_INFOS 
+    <choose> 
+      <when test="conditionMap.dataDate!=null">where data_date = #{conditionMap.dataDate} 
+        <if test="conditionMap.employeeCode!=null">and employee_code = #{conditionMap.employeeCode}</if>  
+        <if test="conditionMap.employeeName!=null"> 
+          <bind name="employeeNamePattern" value="'%'+conditionMap.employeeName+'%'"/> and employee_name LIKE #{employeeNamePattern}
+        </if>  
+        <if test="conditionMap.orgNameSecond!=null"> 
+          <bind name="orgNamePattern" value="'%'+conditionMap.orgNameSecond+'%'"/> and org_name_second LIKE #{orgNamePattern}
+        </if> 
+      </when>  
+      <otherwise>where 1=2</otherwise> 
+    </choose> order by org_code, employee_code ) t ) t1 where t1.rn between #{conditionMap.start} and #{conditionMap.end}
+  </select>  
+  <!--通过条件获取评价员工总数-->  
+  <select id="getEvalEmployeeInfosCountWithCondition" parameterType="java.util.Map" resultType="java.lang.Integer">select count(1) from eval_EMPLOYEE_INFOS 
+    <choose> 
+      <when test="conditionMap.dataDate!=null or conditionMap.executorId!=null">where 1=1 
+        <if test="conditionMap.dataDate!=null">and data_date = #{conditionMap.dataDate}</if>  
+        <if test="conditionMap.employeeCode!=null">and employee_code = #{conditionMap.employeeCode}</if>  
+        <if test="conditionMap.executorId!=null">and created_by = #{conditionMap.executorId}</if>  
+        <if test="conditionMap.employeeName!=null"> 
+          <bind name="employeeNamePattern" value="'%'+conditionMap.employeeName+'%'"/> and employee_name LIKE #{employeeNamePattern}
+        </if>  
+        <if test="conditionMap.orgNameSecond!=null"> 
+          <bind name="orgNamePattern" value="'%'+conditionMap.orgNameSecond+'%'"/> and org_name_second LIKE #{orgNamePattern}
+        </if> 
+      </when>  
+      <otherwise>where 1=2</otherwise> 
+    </choose> 
+  </select>  
+  <!--获取所有的人员的总数-->  
+  <select id="getAllEmpCount" resultType="java.lang.Integer">select count(1) from hr_employee_info_sync</select>  
+  <!--调用刷新数据的存储过程-->  
+  <select id="callExecuteRefresh" statementType="CALLABLE">
+{call hr_eval_data_pkg.init_data_before_start( #{p_eval_year, mode = IN ,jdbcType = VARCHAR } , #{p_data_date, mode = IN ,jdbcType = DATE } , #{p_executor_id, mode = IN ,jdbcType = VARCHAR } , #{p_auto_commit, mode = IN ,jdbcType = VARCHAR } , #{ x_rtn_code ,mode = OUT ,jdbcType = VARCHAR} , #{ x_rtn_msg ,mode = OUT ,jdbcType = VARCHAR})}</select>
+
+  <!--//根据人员编号或姓名获取人员信息-->
+   <select id="getEmpByCodeOrName" resultMap="HrEmployeeInfoSyncMap" parameterType="java.lang.String">
+     select * from (select * from hr_employee_info_sync where employee_name like '%'||#{codeOrName}||'%'  or  employee_code like '%'||#{codeOrName}||'%'  order by employee_code )
+     where rownum   &lt;=         10
+
+  </select>
+</mapper>

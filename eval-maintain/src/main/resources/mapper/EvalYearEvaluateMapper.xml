@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yuchai.maintain.evalmaintain.mapper.EvalYearEvaluateMapper"> 
+  <resultMap id="EvalYearEvaluateMap" type="com.yuchai.maintain.evalmaintain.entity.EvalYearEvaluate"> 
+    <result column="object_version_number" property="objectVersionNumber" jdbcType="NUMERIC"/>  
+    <result column="ability1" property="ability1" jdbcType="VARCHAR"/>  
+    <result column="result_first" property="resultFirst" jdbcType="NUMERIC"/>  
+    <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>  
+    <result column="ability6" property="ability6" jdbcType="VARCHAR"/>  
+    <result column="ability7" property="ability7" jdbcType="VARCHAR"/>  
+    <result column="ability8" property="ability8" jdbcType="VARCHAR"/>  
+    <result column="ability9" property="ability9" jdbcType="VARCHAR"/>  
+    <result column="ability2" property="ability2" jdbcType="VARCHAR"/>  
+    <result column="works1" property="works1" jdbcType="VARCHAR"/>  
+    <result column="ability3" property="ability3" jdbcType="VARCHAR"/>  
+    <result column="ability4" property="ability4" jdbcType="VARCHAR"/>  
+    <result column="level_first_desc" property="levelFirstDesc" jdbcType="VARCHAR"/>  
+    <result column="level_result_desc" property="levelResultDesc" jdbcType="VARCHAR"/>  
+    <result column="employee_code" property="employeeCode" jdbcType="VARCHAR"/>  
+    <result column="ability5" property="ability5" jdbcType="VARCHAR"/>  
+    <result column="hr_result_desc" property="hrResultDesc" jdbcType="VARCHAR"/>  
+    <result column="works4" property="works4" jdbcType="VARCHAR"/>  
+    <result column="ability10" property="ability10" jdbcType="VARCHAR"/>  
+    <result column="works5" property="works5" jdbcType="VARCHAR"/>  
+    <result column="works_avg" property="worksAvg" jdbcType="NUMERIC"/>  
+    <result column="works2" property="works2" jdbcType="VARCHAR"/>  
+    <result column="works3" property="works3" jdbcType="VARCHAR"/>  
+    <result column="hr_result_submit" property="hrResultSubmit" jdbcType="VARCHAR"/>  
+    <result column="first_submit" property="firstSubmit" jdbcType="VARCHAR"/>  
+    <result column="working_level_desc" property="workingLevelDesc" jdbcType="VARCHAR"/>  
+    <result column="last_updated_by" property="lastUpdatedBy" jdbcType="VARCHAR"/>  
+    <result column="works_result" property="worksResult" jdbcType="NUMERIC"/>  
+    <result column="working_level" property="workingLevel" jdbcType="NUMERIC"/>  
+    <result column="result_scale" property="resultScale" jdbcType="VARCHAR"/>  
+    <result column="ability_result" property="abilityResult" jdbcType="NUMERIC"/>  
+    <result column="level_result" property="levelResult" jdbcType="VARCHAR"/>  
+    <result column="creation_date" property="creationDate" jdbcType="DATE"/>  
+    <result column="eval_year" property="evalYear" jdbcType="VARCHAR"/>  
+    <result column="hr_result" property="hrResult" jdbcType="VARCHAR"/>  
+    <result column="lresult_submit" property="lresultSubmit" jdbcType="VARCHAR"/>  
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>  
+    <result column="level_first" property="levelFirst" jdbcType="VARCHAR"/> 
+  </resultMap>  
+  <resultMap id="EvalRefreshDataExecutorMap" type="com.yuchai.maintain.evalmaintain.entity.EvalRefreshDataExecutor"> 
+    <result column="last_updated_by" property="lastUpdatedBy" jdbcType="VARCHAR"/>  
+    <result column="object_version_number" property="objectVersionNumber" jdbcType="NUMERIC"/>  
+    <result column="executor_status" property="executorStatus" jdbcType="VARCHAR"/>  
+    <result column="executor_id" property="executorId" jdbcType="VARCHAR"/>  
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>  
+    <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>  
+    <result column="att03" property="att03" jdbcType="VARCHAR"/>  
+    <result column="executor_rtn_info" property="executorRtnInfo" jdbcType="VARCHAR"/>  
+    <result column="executor_rtn_code" property="executorRtnCode" jdbcType="VARCHAR"/>  
+    <result column="creation_date" property="creationDate" jdbcType="DATE"/>  
+    <result column="att02" property="att02" jdbcType="VARCHAR"/>  
+    <result column="att01" property="att01" jdbcType="VARCHAR"/> 
+  </resultMap>  
+  <select id="getEvalByYear" resultMap="EvalYearEvaluateMap" parameterType="java.lang.String">select * from eval_year_evaluate where eval_year = #{year}</select>  
+  <update id="updateEvalMgrYear">update eval_year_evaluate set first_submit = #{firstSubmit} where eval_year = #{evalYear} and employee_code = #{employeeCode}</update>  
+  <!--通过状态查询进程是否存在-->  
+  <select id="existExecutorByStatus" parameterType="java.lang.String" resultType="java.lang.Integer">select count(1) from eval_refresh_data_executor where executor_status = #{status}</select>  
+  <!--通过状态查询进程-->  
+  <select id="getExecutorByStatus" parameterType="java.lang.String" resultMap="EvalRefreshDataExecutorMap">select * from eval_refresh_data_executor where executor_status = #{status} and rownum=1</select>  
+  <!--通过进程id来修改进程信息-->  
+  <update id="updateExecutorStatusById" parameterType="com.yuchai.maintain.evalmaintain.entity.EvalRefreshDataExecutor">update eval_refresh_data_executor set 
+    <if test="executor.executorStatus!=null">executor_status = #{executor.executorStatus},</if>  
+    <if test="executor.executorRtnCode!=null">executor_rtn_code = #{executor.executorRtnCode},</if>  
+    <if test="executor.executorRtnInfo!=null">executor_rtn_info = #{executor.executorRtnInfo},</if> last_update_date = sysdate , last_updated_by='admin',object_version_number = object_version_number+1 where executor_id = #{executor.executorId}
+  </update>  
+  <!--通过id来查询进程-->  
+  <select id="getExecutorById" parameterType="java.lang.String" resultMap="EvalRefreshDataExecutorMap">select * from eval_refresh_data_executor where executor_id = #{id}</select>  
+  <!--创建一条进程记录-->  
+  <insert id="createExecutor" parameterType="com.yuchai.maintain.evalmaintain.entity.EvalRefreshDataExecutor">insert into eval_refresh_data_executor(executor_id , executor_status , executor_rtn_code , executor_rtn_info , att01 , att02 , att03 , CREATION_DATE , CREATED_BY , LAST_UPDATE_DATE , LAST_UPDATED_BY , OBJECT_VERSION_NUMBER ) values(#{executor.executorId},#{executor.executorStatus},null ,null,null,null, null,sysdate,'admin',sysdate,'admin',1)</insert> 
+
+  <select id="createNextYearEvaluate" statementType="CALLABLE" parameterType="java.util.Map">
+    {call hr_eval_pkg.eval_data_init_finish(#{p_cur_user,mode=IN,jdbcType = VARCHAR },#{p_data_date,mode=IN,jdbcType = VARCHAR},
+    #{x_next_year,mode=OUT,jdbcType = VARCHAR},#{x_rtn_code,mode=OUT,jdbcType = VARCHAR},#{x_rtn_msg,mode=OUT,jdbcType = VARCHAR}   )   }
+
+  </select>
+
+</mapper>

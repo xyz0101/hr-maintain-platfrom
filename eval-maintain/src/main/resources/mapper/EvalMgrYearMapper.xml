@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yuchai.maintain.evalmaintain.mapper.EvalMgrYearMapper"> 
+  <resultMap id="EvalMgrYearVMap" type="com.yuchai.maintain.evalmaintain.entity.EvalMgrYearV"> 
+    <result column="employee_level" property="employeeLevel" jdbcType="VARCHAR"/>  
+    <result column="employee_name" property="employeeName" jdbcType="VARCHAR"/>  
+    <result column="mgr_code" property="mgrCode" jdbcType="VARCHAR"/>  
+    <result column="mgr_name" property="mgrName" jdbcType="VARCHAR"/>  
+    <result column="org_full_name" property="orgFullName" jdbcType="VARCHAR"/>  
+    <result column="statu" property="statu" jdbcType="VARCHAR"/>  
+    <result column="first_submit" property="firstSubmit" jdbcType="VARCHAR"/>  
+    <result column="eval_year" property="evalYear" jdbcType="VARCHAR"/>  
+    <result column="level_first" property="levelFirst" jdbcType="VARCHAR"/>  
+    <result column="employee_code" property="employeeCode" jdbcType="VARCHAR"/> 
+  </resultMap>  
+  <!--分页获取数据-->  
+  <select id="getEvalYearByCondition" resultMap="EvalMgrYearVMap" parameterType="java.util.Map">select * from( select e3.eval_year,e3.employee_code,e3.employee_name, e3.employee_level,e3.org_full_name,e3.mgr_code, (select info.employee_name from hr_employee_info_sync info where info.employee_code = e3.mgr_code) mgr_name, e3.level_first,e3.first_submit,e3.statu,rownum rn from ( select * from eval_mgr_year_v e1 where 1=1 
+    <if test="conditionMap.evalYear!=null">and e1.eval_year = #{conditionMap.evalYear}</if>  
+    <if test="conditionMap.employeeLevel!=null">and e1.employee_level IN 
+      <foreach collection="conditionMap.employeeLevel" item="val" index="index" open="(" close=")" separator=",">#{val}</foreach> 
+    </if>  
+    <if test="conditionMap.orgFullName!=null"> 
+      <bind name="orgNamePattern" value="'%'+conditionMap.orgFullName+'%'"/> and e1.org_full_name like #{orgNamePattern}
+    </if>  
+    <if test="conditionMap.employeeName!=null"> 
+      <bind name="employeeNamePattern" value="'%'+conditionMap.employeeName+'%'"/> and e1.employee_name LIKE #{employeeNamePattern}
+    </if>  
+    <if test="conditionMap.employeeCode!=null">and e1.employee_code = #{conditionMap.employeeCode}</if>  
+    <if test="conditionMap.levelFirst!=null">and e1.level_first = #{conditionMap.levelFirst}</if>  
+    <if test="conditionMap.mgrName!=null"> 
+      <bind name="mgrNamePattern" value="'%'+conditionMap.mgrName+'%'"/> and e1.mgr_code in (select employee_code from hr_employee_info_sync where employee_name like #{mgrNamePattern})
+    </if>  
+    <if test="conditionMap.sortKey!=null and conditionMap.sortValue!=null "> 
+      <if test="conditionMap.sortValue=='asc'">order by ${conditionMap.sortKey} asc</if>  
+      <if test="conditionMap.sortValue=='desc'">order by ${conditionMap.sortKey} desc</if> 
+    </if> ) e3 ) e2 where e2.rn between #{conditionMap.start} and #{conditionMap.end}
+  </select>  
+  <!--获取总数-->  
+  <select id="getEvalYearByConditionCount" resultType="java.lang.Integer" parameterType="java.util.Map">select count(1) from eval_mgr_year_v where 1=1 
+    <if test="conditionMap.evalYear!=null">and eval_year = #{conditionMap.evalYear}</if>  
+    <if test="conditionMap.employeeLevel!=null">and employee_level IN 
+      <foreach collection="conditionMap.employeeLevel" item="val" index="index" open="(" close=")" separator=",">#{val}</foreach> 
+    </if>  
+    <if test="conditionMap.orgFullName!=null"> 
+      <bind name="orgNamePattern" value="'%'+conditionMap.orgFullName+'%'"/> and org_full_name like #{orgNamePattern}
+    </if>  
+    <if test="conditionMap.employeeName!=null"> 
+      <bind name="employeeNamePattern" value="'%'+conditionMap.employeeName+'%'"/> and employee_name LIKE #{employeeNamePattern}
+    </if>  
+    <if test="conditionMap.levelFirst!=null">and level_first = #{conditionMap.levelFirst}</if>  
+    <if test="conditionMap.employeeCode!=null">and employee_code = #{conditionMap.employeeCode}</if>  
+    <if test="conditionMap.mgrName!=null"> 
+      <bind name="mgrNamePattern" value="'%'+conditionMap.mgrName+'%'"/> and mgr_code in (select employee_code from hr_employee_info_sync where employee_name like #{mgrNamePattern})
+    </if> 
+  </select> 
+</mapper>
