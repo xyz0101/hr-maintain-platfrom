@@ -20,6 +20,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-maven-plugin</artifactId>
+            <version>1.3.6</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
@@ -38,10 +44,10 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
         <dependency>
             <groupId>com.yuchai.maintain</groupId>
             <artifactId>eval-maintain</artifactId>
@@ -67,6 +73,21 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.6</version>
+                <configuration>
+                        <!--允许移动生成的文件 -->
+                        <verbose>true</verbose>
+                        <!-- 是否覆盖 -->
+                        <overwrite>true</overwrite>
+                        <!-- 自动生成的配置，配置文件路径 -->
+                        <configurationFile>
+                            src/main/resources/generator/mybatis-generator.xml
+                        </configurationFile>
+                </configuration>
             </plugin>
         </plugins>
     </build>

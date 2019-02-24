@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuchai.maintain.targetmaintain.mapper.BpmVirtualTodoListMapper">
+  <resultMap id="BaseResultMap" type="com.yuchai.maintain.targetmaintain.entity.BpmVirtualTodoList">
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="CREATOR_NAME" jdbcType="VARCHAR" property="creatorName" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="ASSIGNEE" jdbcType="VARCHAR" property="assignee" />
+    <result column="ASSIGNEDDATE" jdbcType="TIMESTAMP" property="assigneddate" />
+    <result column="ACTIVITY_LABEL" jdbcType="VARCHAR" property="activityLabel" />
+    <result column="FORMURL" jdbcType="VARCHAR" property="formurl" />
+    <result column="INSTANCE_ID" jdbcType="VARCHAR" property="instanceId" />
+    <result column="TASK_ID" jdbcType="VARCHAR" property="taskId" />
+  </resultMap>
+  <insert id="insert" parameterType="java.util.Map">
+    insert into BPM_VIRTUAL_TODO_LIST (TITLE, CREATOR_NAME, CREATE_TIME, 
+      ASSIGNEE,ACTIVITY_LABEL,
+      FORMURL, INSTANCE_ID
+      )
+    values (#{title}, #{creatorName}, to_date(#{createTime},'yyyy-MM-dd'),
+      #{assignee}, #{activityLabel},
+      #{formurl}, #{instanceId}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="java.util.Map">
+    insert into BPM_VIRTUAL_TODO_LIST
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        TITLE,
+      </if>
+      <if test="creatorName != null">
+        CREATOR_NAME,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="assignee != null">
+        ASSIGNEE,
+      </if>
+      <if test="assigneddate != null">
+        ASSIGNEDDATE,
+      </if>
+      <if test="activityLabel != null">
+        ACTIVITY_LABEL,
+      </if>
+      <if test="formurl != null">
+        FORMURL,
+      </if>
+      <if test="instanceId != null">
+        INSTANCE_ID,
+      </if>
+      <if test="taskId != null">
+        TASK_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorName != null">
+        #{creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assignee != null">
+        #{assignee,jdbcType=VARCHAR},
+      </if>
+      <if test="assigneddate != null">
+        #{assigneddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityLabel != null">
+        #{activityLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="formurl != null">
+        #{formurl,jdbcType=VARCHAR},
+      </if>
+      <if test="instanceId != null">
+        #{instanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectByInstanceid" parameterType="java.lang.String" resultMap="BaseResultMap">
+      SELECT *  FROM BPM_VIRTUAL_TODO_LIST WHERE INSTANCEID=#{Instanceid,jdbcType=VARCHAR}
+  </select>
+  <select id="getMaxN"  resultType="java.lang.Integer">
+    select to_number(max(substr(t.instance_id,12))) paramM from bpm_virtual_todo_list t where t.instance_id like 'ZP%' and t.instance_id not like '%bakzp'
+  </select>
+  <delete id="deleteVirtProcess" parameterType="java.util.Map" >
+    delete from bpm_virtual_todo_list t where t.activity_label = #{activityLabel}
+    <foreach collection="assignee" item="item" open=" and t.assignee in(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+</mapper>

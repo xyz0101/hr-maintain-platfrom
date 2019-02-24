@@ -1,42 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yuchai.maintain.targetmaintain.mapper.TargetSelfMapper">
-  <resultMap id="TargetSelfDateMap" type="com.yuchai.maintain.targetmaintain.entity.TargetSelfDate">
-    <result column="last_updated_by" property="lastUpdatedBy" jdbcType="VARCHAR"/>
-    <result column="object_version_number" property="objectVersionNumber" jdbcType="NUMERIC"/>
-    <result column="end_date" property="endDate" jdbcType="DATE"/>
-    <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
-    <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
-    <result column="self_id" property="selfId" jdbcType="VARCHAR"/>
-    <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
-    <result column="type_value" property="typeValue" jdbcType="VARCHAR"/>
-    <result column="quarter_number" property="quarterNumber" jdbcType="NUMERIC"/>
-    <result column="creation_date" property="creationDate" jdbcType="DATE"/>
-    <result column="start_date" property="startDate" jdbcType="DATE"/>
-  </resultMap>
-<select id="getAllSelfDatePoint" resultMap="TargetSelfDateMap" >
-    select * from target_self_date where type_value != 'ALL'
-
-</select>
-
- <select id="allAuthIsOpen" resultType="java.lang.Integer" >
-    select quarter_number from target_self_date where type_value = 'ALL' and rownum =1
-</select>
-
-<update id="changeAllAuth" parameterType="java.lang.Integer" >
-    update target_self_date set  quarter_number = #{value} ,last_updated_by = 'admin' ,last_update_date = sysdate ,
-      object_version_number = object_version_number+1
-     where type_value =  'ALL'
-</update>
-
-<update id="updateDatePoint" parameterType="java.util.List">
-    <foreach collection="selfDateList" open="begin" close=";end;" separator=";" item="self" index="index">
-        update target_self_date  set
-        start_date = #{self.startDate,jdbcType=DATE} , end_date = #{self.endDate,jdbcType=DATE} ,
-        last_updated_by = 'admin' ,last_update_date = sysdate ,
-        object_version_number = object_version_number+1
-        where self_id = #{self.selfId}
-    </foreach>
-</update>
+<mapper namespace="com.yuchai.maintain.targetmaintain.mapper.TargetSelfMapper"> 
+  <resultMap id="TargetSelfDateMap" type="com.yuchai.maintain.targetmaintain.entity.TargetSelfDate"> 
+    <result column="last_updated_by" property="lastUpdatedBy" jdbcType="VARCHAR"/>  
+    <result column="object_version_number" property="objectVersionNumber" jdbcType="NUMERIC"/>  
+    <result column="end_date" property="endDate" jdbcType="DATE"/>  
+    <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>  
+    <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>  
+    <result column="self_id" property="selfId" jdbcType="VARCHAR"/>  
+    <result column="type_name" property="typeName" jdbcType="VARCHAR"/>  
+    <result column="type_value" property="typeValue" jdbcType="VARCHAR"/>  
+    <result column="quarter_number" property="quarterNumber" jdbcType="NUMERIC"/>  
+    <result column="creation_date" property="creationDate" jdbcType="DATE"/>  
+    <result column="start_date" property="startDate" jdbcType="DATE"/> 
+  </resultMap>  
+  <select id="getAllSelfDatePoint" resultMap="TargetSelfDateMap">select * from target_self_date where type_value != 'ALL'</select>  
+  <select id="allAuthIsOpen" resultType="java.lang.Integer">select quarter_number from target_self_date where type_value = 'ALL' and rownum =1</select>  
+  <update id="changeAllAuth" parameterType="java.lang.Integer">update target_self_date set quarter_number = #{value} ,last_updated_by = 'admin' ,last_update_date = sysdate , object_version_number = object_version_number+1 where type_value = 'ALL'</update>  
+  <update id="updateDatePoint" parameterType="java.util.List"> 
+    <foreach collection="selfDateList" open="begin" close=";end;" separator=";" item="self" index="index">update target_self_date set start_date = #{self.startDate,jdbcType=DATE} , end_date = #{self.endDate,jdbcType=DATE} , last_updated_by = 'admin' ,last_update_date = sysdate , object_version_number = object_version_number+1 where self_id = #{self.selfId}</foreach> 
+  </update>
 </mapper>
