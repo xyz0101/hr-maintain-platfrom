@@ -112,7 +112,7 @@ public class Utils {
     public static String getCurrPath(String path){
         logger.info("路径    "+path);
         // String curPath = Utils.class.getResource("/"+path).getPath();
-        String curPath="D:/IdeaProjects/maintain-platfrom/eval-maintain/target/classes/"+path;
+        String curPath="D:/IdeaProjects/hr-maintain-platfrom/target-maintain/target/classes/"+path;
         logger.info(curPath);
         return curPath;
 

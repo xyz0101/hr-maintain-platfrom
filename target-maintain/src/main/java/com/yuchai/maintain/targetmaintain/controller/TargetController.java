@@ -1,22 +1,23 @@
 package com.yuchai.maintain.targetmaintain.controller;
 
 
+ import com.alibaba.fastjson.JSONArray;
+ import com.alibaba.fastjson.JSONObject;
  import com.yuchai.maintain.evalmaintain.utils.Utils;
 import com.yuchai.maintain.targetmaintain.entity.EvalTargetsApply;
 import com.yuchai.maintain.targetmaintain.entity.PageData;
 import com.yuchai.maintain.targetmaintain.entity.Result;
 import com.yuchai.maintain.targetmaintain.entity.TargetSelfDate;
-import com.yuchai.maintain.targetmaintain.service.TargetRecordService;
+ import com.yuchai.maintain.targetmaintain.service.BpmVirtualTodoListService;
+ import com.yuchai.maintain.targetmaintain.service.TargetRecordService;
 import com.yuchai.maintain.targetmaintain.service.TargetSelfService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+ import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+ import javax.swing.text.html.parser.Entity;
+ import java.util.*;
 
 @RestController
 @RequestMapping("/target")
@@ -24,10 +25,13 @@ public class TargetController {
     Logger logger = LoggerFactory.getLogger(TargetController.class);
 
 
+
+    @Autowired
+    private TargetSelfService targetSelfService;
     @Autowired
     private TargetRecordService targetRecordService;
     @Autowired
-    private TargetSelfService targetSelfService;
+    private BpmVirtualTodoListService bvts;
 
     @RequestMapping("/getTargetByYear")
     public List<EvalTargetsApply> getByYear(String year){
@@ -92,6 +96,35 @@ public class TargetController {
         logger.info("保存数据====>"+updateValue);
         if(!Utils.isNullValueOrNull(updateValue))
         this.targetSelfService.updateDatePoint(updateList);
+    }
+
+    /**
+     * 查询员工评价信息
+     * @param year
+     * @return
+     */
+    @RequestMapping(value="/queryEmpEvalData")
+    public List<EvalTargetsApply> queryEmpEvalInfo(String year){
+        return targetRecordService.queryEmpEvalInfo(year);
+    }
+
+    @RequestMapping(value="/insertEvalVirtRecord")
+    public Integer insertRecord( String param){
+         JSONArray json = JSONArray.parseArray(param);
+        return bvts.createProcess(json);
+    }
+
+    @RequestMapping(value = "/deleteRocordProcess")
+    public Integer deleteVirtRecord(String param){
+        JSONArray jsonArray = JSONArray.parseArray(param);
+        return bvts.deleteProcessVirt(jsonArray);
+    }
+
+
+    @RequestMapping(value = "/getEndDate")
+    public Map<String, Object> getCurQuEnddate(String qN){
+        System.err.println("--------------->"+qN);
+        return targetRecordService.selectEnddate(qN);
     }
 
 

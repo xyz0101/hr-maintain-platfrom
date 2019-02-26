@@ -2,53 +2,69 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yuchai.maintain.targetmaintain.mapper.TargetRecordMapper"> 
-  <resultMap id="EvalTargetsApplyMap" type="com.yuchai.maintain.targetmaintain.entity.EvalTargetsApply"> 
-    <result column="q4th_mgr_appr2" property="q4thMgrAppr2" jdbcType="VARCHAR"/>  
-    <result column="q4th_mgr_appr3" property="q4thMgrAppr3" jdbcType="VARCHAR"/>  
-    <result column="q1th_fdate" property="q1thFdate" jdbcType="DATE"/>  
-    <result column="q4th_self_appr" property="q4thSelfAppr" jdbcType="VARCHAR"/>  
-    <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>  
-    <result column="biz_content" property="bizContent" jdbcType="VARCHAR"/>  
-    <result column="q2th_mgr_appr2" property="q2thMgrAppr2" jdbcType="VARCHAR"/>  
-    <result column="q2th_mgr_appr3" property="q2thMgrAppr3" jdbcType="VARCHAR"/>  
-    <result column="position_code" property="positionCode" jdbcType="VARCHAR"/>  
-    <result column="tar_year" property="tarYear" jdbcType="VARCHAR"/>  
-    <result column="q2th_mgr_appr1" property="q2thMgrAppr1" jdbcType="VARCHAR"/>  
-    <result column="employee_code" property="employeeCode" jdbcType="VARCHAR"/>  
-    <result column="leader_status" property="leaderStatus" jdbcType="VARCHAR"/>  
-    <result column="instance_id" property="instanceId" jdbcType="VARCHAR"/>  
-    <result column="q2th_self_appr" property="q2thSelfAppr" jdbcType="VARCHAR"/>  
-    <result column="q3th_mgr_appr3" property="q3thMgrAppr3" jdbcType="VARCHAR"/>  
-    <result column="apply_index" property="applyIndex" jdbcType="NUMERIC"/>  
-    <result column="q1th_status" property="q1thStatus" jdbcType="VARCHAR"/>  
-    <result column="last_updated_by" property="lastUpdatedBy" jdbcType="VARCHAR"/>  
-    <result column="face_status" property="faceStatus" jdbcType="VARCHAR"/>  
-    <result column="q3th_mgr_appr2" property="q3thMgrAppr2" jdbcType="VARCHAR"/>  
-    <result column="is_entrusted" property="isEntrusted" jdbcType="VARCHAR"/>  
-    <result column="q3th_mgr_appr1" property="q3thMgrAppr1" jdbcType="VARCHAR"/>  
-    <result column="edit_auth" property="editAuth" jdbcType="VARCHAR"/>  
-    <result column="q1th_mgr_appr2" property="q1thMgrAppr2" jdbcType="VARCHAR"/>  
-    <result column="q2th_status" property="q2thStatus" jdbcType="VARCHAR"/>  
-    <result column="creation_date" property="creationDate" jdbcType="DATE"/>  
-    <result column="q1th_mgr_appr1" property="q1thMgrAppr1" jdbcType="VARCHAR"/>  
-    <result column="q1th_mgr_appr3" property="q1thMgrAppr3" jdbcType="VARCHAR"/>  
-    <result column="tar_id" property="tarId" jdbcType="VARCHAR"/>  
-    <result column="self_resp" property="selfResp" jdbcType="VARCHAR"/>  
-    <result column="view_flag" property="viewFlag" jdbcType="VARCHAR"/>  
-    <result column="q1th_self_appr" property="q1thSelfAppr" jdbcType="VARCHAR"/>  
-    <result column="his_flag" property="hisFlag" jdbcType="VARCHAR"/>  
-    <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>  
-    <result column="q3th_status" property="q3thStatus" jdbcType="VARCHAR"/>  
-    <result column="tar_fdate" property="tarFdate" jdbcType="DATE"/>  
-    <result column="tar_status" property="tarStatus" jdbcType="VARCHAR"/>  
-    <result column="org_resp" property="orgResp" jdbcType="VARCHAR"/>  
-    <result column="q3th_fdate" property="q3thFdate" jdbcType="DATE"/>  
-    <result column="q4th_fdate" property="q4thFdate" jdbcType="DATE"/>  
-    <result column="tar_template" property="tarTemplate" jdbcType="VARCHAR"/>  
-    <result column="q2th_fdate" property="q2thFdate" jdbcType="DATE"/>  
-    <result column="q4th_status" property="q4thStatus" jdbcType="VARCHAR"/>  
-    <result column="q3th_self_appr" property="q3thSelfAppr" jdbcType="VARCHAR"/>  
-    <result column="q4th_mgr_appr1" property="q4thMgrAppr1" jdbcType="VARCHAR"/> 
+  <resultMap id="EvalTargetsApplyMap" type="com.yuchai.maintain.targetmaintain.entity.EvalTargetsApply">
+        <result column="q4th_mgr_appr2" property="q4thMgrAppr2" jdbcType="VARCHAR"/><result column="q4th_mgr_appr2" property="q4thMgrAppr2" jdbcType="VARCHAR"/>
+        <result column="employeeName" property="employeeName" jdbcType="VARCHAR"/>
+        <result column="q1th_fdate" property="q1thFdate" jdbcType="DATE"/>
+        <result column="q4th_self_appr" property="q4thSelfAppr" jdbcType="VARCHAR"/>
+        <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
+        <result column="biz_content" property="bizContent" jdbcType="VARCHAR"/>
+        <result column="q2th_mgr_appr2" property="q2thMgrAppr2" jdbcType="VARCHAR"/>
+        <result column="q2th_mgr_appr3" property="q2thMgrAppr3" jdbcType="VARCHAR"/>
+        <result column="position_code" property="positionCode" jdbcType="VARCHAR"/>
+        <result column="tar_year" property="tarYear" jdbcType="VARCHAR"/>
+        <result column="q2th_mgr_appr1" property="q2thMgrAppr1" jdbcType="VARCHAR"/>
+        <result column="employee_code" property="employeeCode" jdbcType="VARCHAR"/>
+        <result column="leader_status" property="leaderStatus" jdbcType="VARCHAR"/>
+        <result column="instance_id" property="instanceId" jdbcType="VARCHAR"/>
+        <result column="q2th_self_appr" property="q2thSelfAppr" jdbcType="VARCHAR"/>
+        <result column="q3th_mgr_appr3" property="q3thMgrAppr3" jdbcType="VARCHAR"/>
+        <result column="apply_index" property="applyIndex"/>
+        <result column="q1th_status" property="q1thStatus" jdbcType="VARCHAR"/>
+        <result column="last_updated_by" property="lastUpdatedBy" jdbcType="VARCHAR"/>
+        <result column="face_status" property="faceStatus" jdbcType="VARCHAR"/>
+        <result column="q3th_mgr_appr2" property="q3thMgrAppr2" jdbcType="VARCHAR"/>
+        <result column="is_entrusted" property="isEntrusted" jdbcType="VARCHAR"/>
+        <result column="q3th_mgr_appr1" property="q3thMgrAppr1" jdbcType="VARCHAR"/>
+        <result column="edit_auth" property="editAuth" jdbcType="VARCHAR"/>
+        <result column="q1th_mgr_appr2" property="q1thMgrAppr2" jdbcType="VARCHAR"/>
+        <result column="q2th_status" property="q2thStatus" jdbcType="VARCHAR"/>
+        <result column="creation_date" property="creationDate" jdbcType="DATE"/>
+        <result column="q1th_mgr_appr1" property="q1thMgrAppr1" jdbcType="VARCHAR"/>
+        <result column="q1th_mgr_appr3" property="q1thMgrAppr3" jdbcType="VARCHAR"/>
+        <result column="tar_id" property="tarId" jdbcType="VARCHAR"/>
+        <result column="self_resp" property="selfResp" jdbcType="VARCHAR"/>
+        <result column="view_flag" property="viewFlag" jdbcType="VARCHAR"/>
+        <result column="q1th_self_appr" property="q1thSelfAppr" jdbcType="VARCHAR"/>
+        <result column="his_flag" property="hisFlag" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="q3th_status" property="q3thStatus" jdbcType="VARCHAR"/>
+        <result column="tar_fdate" property="tarFdate" jdbcType="DATE"/>
+        <result column="tar_status" property="tarStatus" jdbcType="VARCHAR"/>
+        <result column="org_resp" property="orgResp" jdbcType="VARCHAR"/>
+        <result column="q3th_fdate" property="q3thFdate" jdbcType="DATE"/>
+        <result column="q4th_fdate" property="q4thFdate" jdbcType="DATE"/>
+        <result column="tar_template" property="tarTemplate" jdbcType="VARCHAR"/>
+        <result column="q2th_fdate" property="q2thFdate" jdbcType="DATE"/>
+        <result column="q4th_status" property="q4thStatus" jdbcType="VARCHAR"/>
+        <result column="q3th_self_appr" property="q3thSelfAppr" jdbcType="VARCHAR"/>
+        <result column="q4th_mgr_appr1" property="q4thMgrAppr1" jdbcType="VARCHAR"/>
+        <result column="q1t" property="q1t" jdbcType="VARCHAR"/>
+        <result column="q2t" property="q2t" jdbcType="VARCHAR"/>
+        <result column="q3t" property="q3t" jdbcType="VARCHAR"/>
+        <result column="q4t" property="q4t" jdbcType="VARCHAR"/>
   </resultMap>  
-  <select id="getTargetApplyByYear" resultMap="EvalTargetsApplyMap" parameterType="java.lang.String">select * from eval_targets_apply where tar_year = #{year} and employee_Code = '10052304'</select> 
+  <select id="getTargetApplyByYear" resultMap="EvalTargetsApplyMap" parameterType="java.lang.String">select * from eval_targets_apply where tar_year = #{year} and employee_Code = '10052304'</select>  
+  <select id="getEmpEvalDetInfo" resultMap="EvalTargetsApplyMap" parameterType="java.util.Map">
+     select t.*,
+      (select employee_name from hr_employee_info_sync v where v.employee_code=t.employee_code ) employeeName,
+      (select  b.title from bpm_virtual_todo_list b where b.assignee=t.employee_code and b.activity_label=#{q1} and rownum=1) q1t,
+      (select  b.title from bpm_virtual_todo_list b where b.assignee=t.employee_code and b.activity_label=#{q2} and rownum=1) q2t,
+      (select  b.title from bpm_virtual_todo_list b where b.assignee=t.employee_code and b.activity_label=#{q3} and rownum=1) q3t,
+      (select  b.title from bpm_virtual_todo_list b where b.assignee=t.employee_code and b.activity_label=#{q4} and rownum=1) q4t
+      from eval_targets_apply t where t.tar_year ='2018' and t.his_flag='new' and t.TAR_STATUS='confirmed'
+</select>
+    <select id="selectEnddateByQ" parameterType="java.util.Map" resultType="java.lang.String">
+        select to_char(t.end_date,'yyyy-MM-dd') from target_self_date t where  t.type_value=#{typevalue} and t.quarter_number=to_number(#{qnumber})
+    </select>
 </mapper>
