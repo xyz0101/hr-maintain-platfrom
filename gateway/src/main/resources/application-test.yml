@@ -32,3 +32,7 @@ spring:
         uri: "http://127.0.0.1:8763"
         predicates:
         - Path=/target/**
+      - id: salaryRoute
+        uri: "http://127.0.0.1:8764"
+        predicates:
+        - Path=/salary/**

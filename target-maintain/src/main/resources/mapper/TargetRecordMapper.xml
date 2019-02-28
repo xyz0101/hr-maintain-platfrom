@@ -56,13 +56,13 @@
   </resultMap>  
   <select id="getTargetApplyByYear" resultMap="EvalTargetsApplyMap" parameterType="java.lang.String">select * from eval_targets_apply where tar_year = #{year} and employee_Code = '10052304'</select>  
   <select id="getEmpEvalDetInfo" resultMap="EvalTargetsApplyMap" parameterType="java.util.Map">
-     select t.*,
+     select t.employee_code,t.tar_template,
       (select employee_name from hr_employee_info_sync v where v.employee_code=t.employee_code ) employeeName,
       (select  b.title from bpm_virtual_todo_list b where b.assignee=t.employee_code and b.activity_label=#{q1} and rownum=1) q1t,
       (select  b.title from bpm_virtual_todo_list b where b.assignee=t.employee_code and b.activity_label=#{q2} and rownum=1) q2t,
       (select  b.title from bpm_virtual_todo_list b where b.assignee=t.employee_code and b.activity_label=#{q3} and rownum=1) q3t,
       (select  b.title from bpm_virtual_todo_list b where b.assignee=t.employee_code and b.activity_label=#{q4} and rownum=1) q4t
-      from eval_targets_apply t where t.tar_year ='2018' and t.his_flag='new' and t.TAR_STATUS='confirmed'
+      from eval_targets_apply t where t.tar_year =#{year} and t.his_flag='new' and t.TAR_STATUS='confirmed'
 </select>
     <select id="selectEnddateByQ" parameterType="java.util.Map" resultType="java.lang.String">
         select to_char(t.end_date,'yyyy-MM-dd') from target_self_date t where  t.type_value=#{typevalue} and t.quarter_number=to_number(#{qnumber})
