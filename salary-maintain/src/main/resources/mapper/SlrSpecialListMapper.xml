@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yuchai.maintain.salarymaintain.mapper.SlrSpecialListMapper">
+    <resultMap id="SlrSpecialListMap" type="com.yuchai.maintain.salarymaintain.entity.SlrSpecialList">
+        <id column="special_id" property="specialId" jdbcType="INTEGER"/>
+        <result column="employee_code" property="employeeCode" jdbcType="VARCHAR"/>
+        <result column="salary_code" property="salaryCode" jdbcType="VARCHAR"/>
+        <result column="salary_name" property="salaryName" jdbcType="VARCHAR"/>
+        <result column="special_type" property="specialType" jdbcType="VARCHAR"/>
+        <result column="employee_name" property="employeeName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="getSlrSpecialList" resultMap="SlrSpecialListMap" >
+        select  v.* from (select t.employee_code,
+        (select m.employee_name from hr_employee_info_sync m where m.employee_code=t.employee_code) employee_name,
+        t.special_type,
+        t.salary_code,
+        s.salary_name,
+        t.p_id special_id
+        from slr_special_list t,slr_salary_items s
+        where t.salary_code=s.salary_code and exists(select i.* from slr_salary_items i where i.salary_code = t.salary_code and i.use_flag='Y')) v where 1=1
+
+    </select>
+   <insert id="addRecord" parameterType="java.util.List">
+       insert into slr_special_list(p_id,employee_code,special_type,salary_code) values
+      <foreach collection="list" item="array" separator=",">
+          (AUTO_INCREASE.NEXTVAL,#{array.employeeCode},#{array.specialType},#{array.salaryCode})
+      </foreach>
+   </insert>
+    <delete id="deleteRecord" parameterType="java.util.List">
+        delete from slr_special_list where p_id in
+        <foreach collection="list" item="array" open=" (" close=")" separator=",">
+            #{array.specialId}
+        </foreach>
+    </delete>
+    <update id="updateRecord" parameterType="java.util.List">
+        <foreach collection="list" item="array" index="index" open="begin" close=";end;" separator=";" >
+           update slr_special_list set employee_code=#{array.employeeCode,jdbcType=VARCHAR},special_type=#{array.specialType,jdbcType=VARCHAR},salary_code=#{array.salaryCode,jdbcType=VARCHAR} where p_id=#{array.specialId,jdbcType=NUMERIC}
+        </foreach>
+    </update>
+</mapper>

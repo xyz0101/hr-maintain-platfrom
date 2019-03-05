@@ -8,7 +8,7 @@ spring:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     type: com.alibaba.druid.pool.DruidDataSource
   application:
-    name: 年度评价模块
+    name: 目标登记与自评模块
    #配置json对日期格式的转换 不配置的话会转换为2019-01-10T11:54:17.511Z这种格式，无法识别
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
