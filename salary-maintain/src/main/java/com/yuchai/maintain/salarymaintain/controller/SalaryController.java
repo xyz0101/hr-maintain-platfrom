@@ -36,7 +36,7 @@ Logger logger = LoggerFactory.getLogger(SalaryController.class);
                 item.setSalaryDay( "N".equals( item.getSalaryDay())?"false":"true" );
                 dateMap.put(new SimpleDateFormat("yyyy/MM/dd").format(item.getDateDate()), item);
             });
-            logger.info(holidays.toString());
+
 
             Calendar cal =  Calendar.getInstance();
             cal.set(year,month,1);
@@ -46,7 +46,7 @@ Logger logger = LoggerFactory.getLogger(SalaryController.class);
 
                  cal.set(year,month,i);
                  Date date = cal.getTime();
-                 logger.info("循环日期===>"+new SimpleDateFormat("yyyy/MM/dd").format(date));
+                 //logger.info("循环日期===>"+new SimpleDateFormat("yyyy/MM/dd").format(date));
                  if(dateMap.get(new SimpleDateFormat("yyyy/MM/dd").format(date))==null){
 
                      SlrHoliday holiday = new SlrHoliday();
@@ -61,9 +61,9 @@ Logger logger = LoggerFactory.getLogger(SalaryController.class);
 
                  }
              }
-
-
-                List<Result> resList = new ArrayList<>();
+            logger.info(holidays.size()+"");
+            logger.info(holidays.toString());
+            List<Result> resList = new ArrayList<>();
             Result res = new Result();
             res.setRtnCode("200");
             res.setRtnMsg("SUCCESS");
@@ -79,5 +79,19 @@ Logger logger = LoggerFactory.getLogger(SalaryController.class);
 
     }
 
+    /**
+     * 保存节假日的修改
+     * @param slrHoliday
+     */
+    @RequestMapping("/saveSlrHoliday")
+    public void saveSlrHoliday(String slrHoliday){
+        logger.info("传来数据===>"+slrHoliday);
+
+        //前端传来的json串转对象集合
+        List<SlrHoliday> holidays = Utils.getListValue(slrHoliday,SlrHoliday.class);
+        slrHolidayService.saveSlrHoliday(holidays);
+        logger.info(holidays.toString());
+
+    }
 
 }

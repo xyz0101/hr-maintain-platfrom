@@ -16,4 +16,34 @@
   where to_char(date_date,'yyyyMM')  = #{CurYearMonth}
   </if>
 </select>
+
+
+
+  <update id="saveSlrHoliday" parameterType="java.util.List">
+
+    <foreach collection="holidayList" item="holiday" open="begin" close=";end;" separator=";" index="index">
+           MERGE INTO   slr_holiday  m
+      using ( select #{holiday.dateDate} date_date from dual)  h
+      on (to_char(h.date_date,'yyyy-MM-dd')  = to_char(m.date_date,'yyyy-MM-dd'))
+      WHEN MATCHED THEN
+      update
+      set
+      date_type  =#{holiday.dateType},
+      is_salary  =#{holiday.salaryDay}
+
+      where to_char(date_date,'yyyy-MM-dd') = to_char(#{holiday.dateDate},'yyyy-MM-dd')
+      WHEN NOT MATCHED THEN
+      insert
+      (date_date,
+      date_type,
+      is_salary )
+      values
+      ( #{holiday.dateDate},
+      #{holiday.dateType},   #{holiday.salaryDay}
+      )
+
+    </foreach>
+
+
+  </update>
 </mapper>

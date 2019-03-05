@@ -9,5 +9,6 @@ import java.util.List;
 public interface SlrHolidayService {
     //获取当前年月的节假日
     List<SlrHoliday> getSlrHoliday(@Param("CurYearMonth") String CurYearMonth);
-
+    //保存节假日修改
+    void saveSlrHoliday(@Param("holidayList") List<SlrHoliday> holidayList);
 }

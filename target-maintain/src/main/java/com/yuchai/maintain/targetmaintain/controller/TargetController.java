@@ -123,7 +123,6 @@ public class TargetController {
 
     @RequestMapping(value = "/getEndDate")
     public Map<String, Object> getCurQuEnddate(String qN){
-        System.err.println("--------------->"+qN);
         return targetRecordService.selectEnddate(qN);
     }
 
