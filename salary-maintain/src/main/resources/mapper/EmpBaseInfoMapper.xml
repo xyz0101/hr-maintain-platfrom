@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yuchai.maintain.salarymaintain.mapper.EmpBaseInfoMapper">
+    <resultMap id="EmpBaseInfoListMap" type="com.yuchai.maintain.salarymaintain.entity.EmpBaseInfo">
+        <result column="employee_code" property="employeeCode" jdbcType="VARCHAR"/>
+        <result column="employee_name" property="employeeName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectEmpBaseInfo" resultMap="EmpBaseInfoListMap" parameterType="java.lang.String">
+        select employee_code,employee_name from hr_employee_info_sync where  employee_code like '%${employeeCode}%'
+    </select>
+</mapper>
