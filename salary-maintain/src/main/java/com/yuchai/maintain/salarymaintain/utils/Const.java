@@ -12,9 +12,9 @@ public class Const {
             "<mapper namespace=\"none\">\n"+
             "</mapper>";
 //    public static final String PROJECT_NAME="eval-maintain";
-     public static final String XML_BASE_PATH = "D:\\IdeaProjects\\maintain-platfrom\\salary-maintain\\src\\main\\resources\\mapper\\";
+     public static final String XML_BASE_PATH = "D:\\IdeaProjects\\hr-maintain-platfrom\\salary-maintain\\src\\main\\resources\\mapper\\";
      public static final String SCAN_PACKAGE = "com.yuchai.maintain.salarymaintain";
-    public static final String CLASS_PATH="D:\\IdeaProjects\\maintain-platfrom\\eval-maintain\\salary\\classes\\com\\yuchai\\maintain\\salarymaintain";
+    public static final String CLASS_PATH="D:\\IdeaProjects\\hr-maintain-platfrom\\eval-maintain\\salary\\classes\\com\\yuchai\\maintain\\salarymaintain";
     public static Map<String,String> TYPE_MAP = new HashMap<String, String>();
     static{
         TYPE_MAP.put(Integer.class.getName(),"NUMERIC");

@@ -1,9 +1,15 @@
 package com.yuchai.maintain.salarymaintain.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.netflix.discovery.converters.Auto;
 import com.yuchai.maintain.salarymaintain.entity.PageData;
 import com.yuchai.maintain.salarymaintain.entity.Result;
 import com.yuchai.maintain.salarymaintain.entity.SlrHoliday;
+import com.yuchai.maintain.salarymaintain.entity.SlrSpecialList;
+import com.yuchai.maintain.salarymaintain.service.EmpBaseInfoService;
+import com.yuchai.maintain.salarymaintain.service.SalaryItemService;
 import com.yuchai.maintain.salarymaintain.service.SlrHolidayService;
+import com.yuchai.maintain.salarymaintain.service.SlrSpecialListService;
 import com.yuchai.maintain.salarymaintain.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +28,13 @@ public class SalaryController {
 Logger logger = LoggerFactory.getLogger(SalaryController.class);
     @Autowired
     SlrHolidayService slrHolidayService;
+    @Autowired
+    SlrSpecialListService slrSpecialListService;
+    @Autowired
+    EmpBaseInfoService empBaseInfoService;
+    @Autowired
+    SalaryItemService salaryItemService;
+
     @RequestMapping("/getSlrHoliday")
     public List<Result> getSlrHoliday(String yearMonth){
         if(!Utils.isNullValueOrNull(yearMonth)) {
@@ -79,5 +92,38 @@ Logger logger = LoggerFactory.getLogger(SalaryController.class);
 
     }
 
+    /**
+     * 获取特殊人员列表和工资项信息
+     * @return
+     */
+    @RequestMapping(value="/querySalaryReadyInfo")
+    public List<Result> querySalaryReadyInfo(){
+        List<Result> resultList = new ArrayList<Result>();
+        Result result = new Result();
+        result.setRtnCode("200");
+        result.setRtnMsg("SUCCESS");
+        PageData pageDate = new PageData();
+        pageDate.setListData(slrSpecialListService.querySpecialList());
+        //获取工资项信息
+        HashMap<String,List> resultMap = new HashMap<String,List>();
+        resultMap.put("salaryitem",salaryItemService.getSalaryItemInfo());
+        pageDate.setSelectLists(resultMap);
+        result.setData(pageDate);
+        resultList.add(result);
+        return resultList;
+    }
 
+    /**
+     * 保存表的修改信息
+     * @param
+     * @return
+     */
+    @RequestMapping(value="/saveSpecialConfigItem")
+    public Integer saveSpecialConfigItem(String updateList,String deleteList, String addList){
+        List<SlrSpecialList> slrUpdateSpecialLists = Utils.getListValue(updateList,SlrSpecialList.class);
+        List<SlrSpecialList> slrDeleteSpecialLists = Utils.getListValue(deleteList,SlrSpecialList.class);
+        List<SlrSpecialList> slrAddSpecialLists = Utils.getListValue(addList,SlrSpecialList.class);
+
+        return slrSpecialListService.saveSpecialUpdate(slrUpdateSpecialLists,slrDeleteSpecialLists,slrAddSpecialLists);
+    }
 }

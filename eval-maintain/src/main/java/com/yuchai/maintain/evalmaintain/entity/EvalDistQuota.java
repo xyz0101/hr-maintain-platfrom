@@ -22,6 +22,8 @@ public class EvalDistQuota{
     private BigDecimal cCal;
     private Date lastUpdateDate;
     private Date creationDate;
+
+
     @EnableExportField(colName = "年份",colWidth = 90)
     @ImportIndex(index = 0)
     private String evalYear;
