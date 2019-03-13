@@ -32,7 +32,7 @@ public class FileUtils {
      * @param clazz pojo类型
      * @return
      */
-    public static List<Object> parseExcelToList(File excel,Class clazz){
+    public static List<?> parseExcelToList(File excel,Class clazz){
         List<Object> res = new ArrayList<>();
         // 创建输入流，读取Excel
         InputStream is = null;

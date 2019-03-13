@@ -3,10 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.3.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <artifactId>maintain-platfrom</artifactId>
+        <groupId>com.yuchai.maintain</groupId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.yuchai.maintain</groupId>
     <artifactId>salary-maintain</artifactId>
@@ -39,12 +38,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.yuchai.maintain</groupId>
-            <artifactId>eval-maintain</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
+
     </dependencies>
 
     <dependencyManagement>

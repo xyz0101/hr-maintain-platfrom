@@ -1,15 +1,13 @@
 package com.yuchai.maintain.salarymaintain.mapper;
 
 import com.alibaba.fastjson.JSONArray;
-import com.yuchai.maintain.evalmaintain.anno.EnableGenerateXml;
+import com.yuchai.maintain.salarymaintain.anno.EnableGenerateXml;
 import com.yuchai.maintain.salarymaintain.entity.SlrSpecialList;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
-@Mapper
-@Repository
 @EnableGenerateXml(classPath = "com.yuchai.maintain.salarymaintain.mapper.SlrHolidayMapper")
 public interface SlrSpecialListMapper {
     /**

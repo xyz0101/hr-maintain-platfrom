@@ -25,5 +25,5 @@ mybatis:
   type-aliases-package: com.yuchai.maintain.salarymaintain.entity
 logging:
   level:
-    com.yuchai.maintain.evalmaintain.mapper: none
+    com.yuchai.maintain.salarymaintain.mapper: none
 

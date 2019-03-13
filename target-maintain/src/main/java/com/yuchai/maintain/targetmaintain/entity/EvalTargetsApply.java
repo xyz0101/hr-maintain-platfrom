@@ -1,6 +1,7 @@
 package com.yuchai.maintain.targetmaintain.entity;
 
-import com.yuchai.maintain.evalmaintain.anno.EnableGenerateResMap;
+
+import com.yuchai.maintain.targetmaintain.anno.EnableGenerateResMap;
 
 import java.util.Date;
 @EnableGenerateResMap(classPath = "com.yuchai.maintain.targetmaintain.entity.EvalTargetsApply",xmlNames = {"TargetRecordMapper"})

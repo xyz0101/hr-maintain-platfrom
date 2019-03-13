@@ -14,7 +14,7 @@
         <module>eval-maintain</module>
         <module>gateway</module>
         <module>target-maintain</module>
-
+        <module>auth-manage</module>
     </modules>
 
     <groupId>com.yuchai.maintain</groupId>
@@ -55,23 +55,23 @@
         <artifactId>druid</artifactId>
         <version>1.0.15</version>
     </dependency>
-        <!--进行数据解析Fastjson会自动处理对象中的泛型，将其解析成原来定义好的对象， -->
-        <dependency>
+    <!--进行数据解析Fastjson会自动处理对象中的泛型，将其解析成原来定义好的对象， -->
+    <dependency>
         <groupId>com.alibaba</groupId>
         <artifactId>fastjson</artifactId>
         <version>1.1.41</version>
     </dependency>
-        <!-- 引入poi，解析workbook视图 -->
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>3.8</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>3.8</version>
-        </dependency>
+    <!-- 引入poi，解析workbook视图 -->
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+        <version>3.8</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <version>3.8</version>
+    </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuchai.maintain.authmanage.mapper.HrMaintainSubMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.yuchai.maintain.authmanage.entity.HrMaintainSubMenu" >
+    <id column="SUB_MENU_ID" property="subMenuId" jdbcType="DECIMAL" />
+    <result column="MAIN_MENU_ID" property="mainMenuId" jdbcType="DECIMAL" />
+    <result column="SUB_MENU_DESC" property="subMenuDesc" jdbcType="VARCHAR" />
+    <result column="SUB_MENU_URL" property="subMenuUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SUB_MENU_ID, MAIN_MENU_ID, SUB_MENU_DESC, SUB_MENU_URL
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from HR_MAINTAIN_SUB_MENU
+    where SUB_MENU_ID = #{subMenuId,jdbcType=DECIMAL}
+  </select>
+
+  <select id="selectByMainMenuId" resultMap="BaseResultMap"  parameterType="java.lang.Short">
+    select
+    <include refid="Base_Column_List" />
+    from HR_MAINTAIN_SUB_MENU
+    where MAIN_MENU_ID = #{mainMenuId,jdbcType=DECIMAL}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from HR_MAINTAIN_SUB_MENU
+    where SUB_MENU_ID = #{subMenuId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yuchai.maintain.authmanage.entity.HrMaintainSubMenu" >
+    insert into HR_MAINTAIN_SUB_MENU (SUB_MENU_ID, MAIN_MENU_ID, SUB_MENU_DESC, 
+      SUB_MENU_URL)
+    values (#{subMenuId,jdbcType=DECIMAL}, #{mainMenuId,jdbcType=DECIMAL}, #{subMenuDesc,jdbcType=VARCHAR}, 
+      #{subMenuUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yuchai.maintain.authmanage.entity.HrMaintainSubMenu" >
+    insert into HR_MAINTAIN_SUB_MENU
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="subMenuId != null" >
+        SUB_MENU_ID,
+      </if>
+      <if test="mainMenuId != null" >
+        MAIN_MENU_ID,
+      </if>
+      <if test="subMenuDesc != null" >
+        SUB_MENU_DESC,
+      </if>
+      <if test="subMenuUrl != null" >
+        SUB_MENU_URL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="subMenuId != null" >
+        #{subMenuId,jdbcType=DECIMAL},
+      </if>
+      <if test="mainMenuId != null" >
+        #{mainMenuId,jdbcType=DECIMAL},
+      </if>
+      <if test="subMenuDesc != null" >
+        #{subMenuDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="subMenuUrl != null" >
+        #{subMenuUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yuchai.maintain.authmanage.entity.HrMaintainSubMenu" >
+    update HR_MAINTAIN_SUB_MENU
+    <set >
+      <if test="mainMenuId != null" >
+        MAIN_MENU_ID = #{mainMenuId,jdbcType=DECIMAL},
+      </if>
+      <if test="subMenuDesc != null" >
+        SUB_MENU_DESC = #{subMenuDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="subMenuUrl != null" >
+        SUB_MENU_URL = #{subMenuUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SUB_MENU_ID = #{subMenuId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yuchai.maintain.authmanage.entity.HrMaintainSubMenu" >
+    update HR_MAINTAIN_SUB_MENU
+    set MAIN_MENU_ID = #{mainMenuId,jdbcType=DECIMAL},
+      SUB_MENU_DESC = #{subMenuDesc,jdbcType=VARCHAR},
+      SUB_MENU_URL = #{subMenuUrl,jdbcType=VARCHAR}
+    where SUB_MENU_ID = #{subMenuId,jdbcType=DECIMAL}
+  </update>
+</mapper>

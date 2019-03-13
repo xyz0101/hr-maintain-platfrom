@@ -1,6 +1,8 @@
 package com.yuchai.maintain.salarymaintain.entity;
-import com.yuchai.maintain.evalmaintain.anno.EnableGenerateResMap;
-import com.yuchai.maintain.evalmaintain.anno.IgnoreInResultMap;
+
+
+import com.yuchai.maintain.salarymaintain.anno.EnableGenerateResMap;
+import com.yuchai.maintain.salarymaintain.anno.IgnoreInResultMap;
 
 import java.util.Date;
 import java.lang.String;

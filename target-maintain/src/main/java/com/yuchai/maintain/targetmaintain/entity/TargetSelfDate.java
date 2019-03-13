@@ -1,5 +1,6 @@
 package com.yuchai.maintain.targetmaintain.entity;
-import com.yuchai.maintain.evalmaintain.anno.EnableGenerateResMap;
+
+import com.yuchai.maintain.targetmaintain.anno.EnableGenerateResMap;
 
 import java.math.BigDecimal;
  import java.lang.String;

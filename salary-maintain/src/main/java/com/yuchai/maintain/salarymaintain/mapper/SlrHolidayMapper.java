@@ -1,7 +1,7 @@
 package com.yuchai.maintain.salarymaintain.mapper;
 
-import com.yuchai.maintain.evalmaintain.anno.EnableGenerateXml;
-import com.yuchai.maintain.salarymaintain.entity.SlrHoliday;
+ import com.yuchai.maintain.salarymaintain.anno.EnableGenerateXml;
+ import com.yuchai.maintain.salarymaintain.entity.SlrHoliday;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

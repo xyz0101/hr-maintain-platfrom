@@ -1,8 +1,9 @@
 package com.yuchai.maintain.targetmaintain.utils;
 
 
-import com.yuchai.maintain.evalmaintain.anno.EnableGenerateResMap;
-import com.yuchai.maintain.evalmaintain.anno.IgnoreInResultMap;
+
+import com.yuchai.maintain.targetmaintain.anno.EnableGenerateResMap;
+import com.yuchai.maintain.targetmaintain.anno.IgnoreInResultMap;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;

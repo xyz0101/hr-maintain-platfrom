@@ -3,8 +3,7 @@ package com.yuchai.maintain.targetmaintain.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.yuchai.maintain.evalmaintain.utils.IgnoreDTDEntityResolver;
-import org.dom4j.Document;
+ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
@@ -54,7 +53,7 @@ public class Utils {
      */
     public static List getListValue(String jsonValue, Class clazz){
         List resList = new ArrayList();
-        JSONArray addArray = com.yuchai.maintain.evalmaintain.utils.Utils.getJsonArray(jsonValue);
+        JSONArray addArray = getJsonArray(jsonValue);
         for(int i=0;i<addArray.size() ;i++){
             JSONObject jo = (JSONObject) addArray.get(i);
             //出现无法赋值的情况可能是字段命名问题，类似以is开头，或者以一个小写字母开头的会导致生成get，set 方法的时候不会转大写，所以无法赋值

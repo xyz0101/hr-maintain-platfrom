@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
-@Repository
+
 public interface EmpBaseInfoMapper {
 
     List<EmpBaseInfo> selectEmpBaseInfo(@Param("employeeCode") String employeeCode);

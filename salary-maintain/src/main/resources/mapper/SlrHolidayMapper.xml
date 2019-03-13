@@ -46,13 +46,6 @@
 
 
   </update>
-  <resultMap id="SlrHolidayMap" type="com.yuchai.maintain.salarymaintain.entity.SlrHoliday">
-    <result column="date_type" property="dateType" jdbcType="VARCHAR"/>
-    <result column="salary_day" property="salaryDay" jdbcType="VARCHAR"/>
-    <result column="date_date" property="dateDate" jdbcType="DATE"/>
-  </resultMap>
-  <select id="getSlrHoliday" resultMap="SlrHolidayMap" parameterType="java.lang.String">select date_type ,is_salary salary_day ,date_date from slr_holiday
-    <if test="CurYearMonth==null">where 1=2</if>
-    <if test="CurYearMonth!=null">where to_char(date_date,'yyyyMM') = #{CurYearMonth}</if>
-  </select>
+
+
 </mapper>

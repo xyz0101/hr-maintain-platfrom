@@ -1,8 +1,9 @@
 package com.yuchai.maintain.targetmaintain.utils;
 
 
-import com.yuchai.maintain.evalmaintain.anno.EnableGenerateResMap;
-import com.yuchai.maintain.evalmaintain.anno.EnableGenerateXml;
+
+import com.yuchai.maintain.targetmaintain.anno.EnableGenerateResMap;
+import com.yuchai.maintain.targetmaintain.anno.EnableGenerateXml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
