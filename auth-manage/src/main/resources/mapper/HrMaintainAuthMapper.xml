@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuchai.maintain.authmanage.mapper.HrMaintainAuthMapper" >
+  <resultMap id="BaseResultMap" type="com.yuchai.maintain.authmanage.entity.HrMaintainAuth" >
+    <id column="AUTH_ID" property="authId" jdbcType="DECIMAL" />
+    <result column="EMPLOYEE_CODE" property="employeeCode" jdbcType="VARCHAR" />
+    <result column="ROLE_CODE" property="roleCode" jdbcType="VARCHAR" />
+    <result column="ROLE_DESC" property="roleDesc" jdbcType="VARCHAR" />
+    <!--一对一-->
+    <association property="mainMenu" column="MAIN_MENU_ID" select="com.yuchai.maintain.authmanage.mapper.HrMaintainMainMenuMapper.selectByPrimaryKey"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    AUTH_ID, EMPLOYEE_CODE, ROLE_CODE, ROLE_DESC, MAIN_MENU_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from HR_MAINTAIN_AUTH
+    where AUTH_ID = #{authId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from HR_MAINTAIN_AUTH
+    where AUTH_ID = #{authId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yuchai.maintain.authmanage.entity.HrMaintainAuth" >
+    insert into HR_MAINTAIN_AUTH (AUTH_ID, EMPLOYEE_CODE, ROLE_CODE, 
+      ROLE_DESC, MAIN_MENU_ID)
+    values (#{authId,jdbcType=DECIMAL}, #{employeeCode,jdbcType=VARCHAR}, #{roleCode,jdbcType=VARCHAR}, 
+      #{roleDesc,jdbcType=VARCHAR}, #{mainMenuId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yuchai.maintain.authmanage.entity.HrMaintainAuth" >
+    insert into HR_MAINTAIN_AUTH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="authId != null" >
+        AUTH_ID,
+      </if>
+      <if test="employeeCode != null" >
+        EMPLOYEE_CODE,
+      </if>
+      <if test="roleCode != null" >
+        ROLE_CODE,
+      </if>
+      <if test="roleDesc != null" >
+        ROLE_DESC,
+      </if>
+      <if test="mainMenuId != null" >
+        MAIN_MENU_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="authId != null" >
+        #{authId,jdbcType=DECIMAL},
+      </if>
+      <if test="employeeCode != null" >
+        #{employeeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roleCode != null" >
+        #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roleDesc != null" >
+        #{roleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="mainMenuId != null" >
+        #{mainMenuId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yuchai.maintain.authmanage.entity.HrMaintainAuth" >
+    update HR_MAINTAIN_AUTH
+    <set >
+      <if test="employeeCode != null" >
+        EMPLOYEE_CODE = #{employeeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roleCode != null" >
+        ROLE_CODE = #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roleDesc != null" >
+        ROLE_DESC = #{roleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="mainMenuId != null" >
+        MAIN_MENU_ID = #{mainMenuId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where AUTH_ID = #{authId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yuchai.maintain.authmanage.entity.HrMaintainAuth" >
+    update HR_MAINTAIN_AUTH
+    set EMPLOYEE_CODE = #{employeeCode,jdbcType=VARCHAR},
+      ROLE_CODE = #{roleCode,jdbcType=VARCHAR},
+      ROLE_DESC = #{roleDesc,jdbcType=VARCHAR},
+      MAIN_MENU_ID = #{mainMenuId,jdbcType=DECIMAL}
+    where AUTH_ID = #{authId,jdbcType=DECIMAL}
+  </update>
+<!-- 通过员工编号查询权限信息 -->
+<select id="getByEmployeeCode" parameterType="java.lang.String" resultMap="BaseResultMap" >
+select  <include refid="Base_Column_List" /> from hr_maintain_auth where employee_code = #{employeeCode,jdbcType=VARCHAR}
+
+</select>
+
+</mapper>
