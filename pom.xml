@@ -2,6 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <groupId>maintain</groupId>
+    <artifactId>maintain-platfrom</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -11,17 +14,15 @@
     <packaging>pom</packaging>
     <modules>
         <module>eureka</module>
+        <module>eureka-01</module>
         <module>eval-maintain</module>
         <module>gateway</module>
         <module>target-maintain</module>
         <module>auth-manage</module>
     </modules>
 
-    <groupId>com.yuchai.maintain</groupId>
-    <artifactId>maintain-platfrom</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>maintain-platfrom</name>
-    <description>Demo project for Spring Boot</description>
+
+
 
     <properties>
         <java.version>1.8</java.version>
@@ -82,11 +83,32 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
             <version>2.1.1.RELEASE</version>
         </dependency>
+        <!-- 健康状况检测组件 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
     </dependencies>
 
     <build>
+        <!--由于在yml文件中使用了$，这个时候启动是会报错的，因此还需要一个maven-resources-plugin插件的支持-->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <delimiters>
+                        <delimiter>$</delimiter>
+                    </delimiters>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

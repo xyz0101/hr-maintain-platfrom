@@ -8,7 +8,7 @@ spring:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     type: com.alibaba.druid.pool.DruidDataSource
   application:
-    name: 薪酬自动化模块
+    name: salary-module
   servlet:
     multipart:
       max-file-size: 20MB
@@ -20,11 +20,19 @@ eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    instance-id: salary-module-product
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.yuchai.maintain.salarymaintain.entity
+  configuration:
+      default-fetch-size: 500
 logging:
   level:
     com.yuchai.maintain.salarymaintain.mapper: none
-
+info:
+  app.name: salary-module
+  company.name: yuchai
+  build.artifactId: $project.artifactId$
+  build.modelVersion: $project.modelVersion$
 

@@ -12,7 +12,7 @@ public class DBUtils {
             Connection conn = DriverManager.getConnection(url,user,password);
             return conn;
 
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

@@ -8,7 +8,7 @@ spring:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     type: com.alibaba.druid.pool.DruidDataSource
   application:
-    name: 年度评价模块
+    name: eval-module
   servlet:
     multipart:
       max-file-size: 20MB
@@ -19,13 +19,21 @@ spring:
 eureka:
   client:
     service-url:
-      #defaultZone: http://127.0.0.1:8761/eureka/
       defaultZone: http://172.16.134.98:8761/eureka/
+  instance:
+    instance-id: eval-module-product
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.yuchai.maintain.evalmaintain.entity
+  configuration:
+      default-fetch-size: 500
 logging:
   level:
     com.yuchai.maintain.evalmaintain.mapper: none
+info:
+  app.name: eval-module
+  company.name: yuchai
+  build.artifactId: $project.artifactId$
+  build.modelVersion: $project.modelVersion$
 
 

@@ -4,9 +4,11 @@ eureka:
   client:
     service-url:
       defaultZone: http://172.16.134.98:8761/eureka/
+  instance:
+    instance-id: gateway-module-app
 spring:
   application:
-    name: 服务网关
+    name: gateway-module
   main:
       allow-bean-definition-overriding: true
   cloud:
@@ -40,3 +42,16 @@ spring:
           uri: "http://172.16.134.98:8765"
           predicates:
           - Path=/auth/**
+info:
+  app.name: gateway-module-app
+  company.name: yuchai
+  build.artifactId: $project.artifactId$
+  build.modelVersion: $project.modelVersion$
+
+
+
+
+
+
+
+

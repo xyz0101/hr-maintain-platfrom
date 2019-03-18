@@ -8,7 +8,7 @@ spring:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     type: com.alibaba.druid.pool.DruidDataSource
   application:
-    name: 薪酬自动化模块
+    name: authority-module
   servlet:
     multipart:
       max-file-size: 20MB
@@ -19,7 +19,10 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka/
+      defaultZone: http://127.0.0.1:8761/eureka,http://127.0.0.1:8760/eureka/
+  instance:
+    instance-id: authority-module-product
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.yuchai.maintain.authmanage.entity
@@ -27,3 +30,8 @@ logging:
   level:
     com.yuchai.maintain.authmanage.mapper: none
 
+info:
+  app.name: authority-module
+  company.name: yuchai
+  build.artifactId: $project.artifactId$
+  build.modelVersion: $project.modelVersion$
